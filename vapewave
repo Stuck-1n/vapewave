@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Puffs JNR – Boutique officielle</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;min-height:100vh;display:flex;flex-direction:column}
+a{text-decoration:none;color:inherit}
+
+/* ─── PAGES ─── */
+.page{display:none;animation:fade .25s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── LOGIN ─── */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 0,rgba(79,172,254,.08)0,transparent 60%)}
+.login-box{width:100%;max-width:400px}
+.logo{text-align:center;margin-bottom:28px}
+.logo h1{font-size:30px;font-weight:800;background:linear-gradient(135deg,#00f2fe,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.5px}
+.logo p{color:#666;font-size:13px;margin-top:4px}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:28px;backdrop-filter:blur(8px)}
+.card h2{font-size:20px;font-weight:700;margin-bottom:2px}
+.card .sub{color:#888;font-size:13px;margin-bottom:20px}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:12px;color:#aaa;margin-bottom:4px;font-weight:500}
+.fg input{width:100%;padding:11px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;font-size:14px;font-family:inherit;outline:none;transition:border .2s}
+.fg input:focus{border-color:#4facfe}
+.fg input::placeholder{color:#444}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border:none;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;transition:all .2s;gap:6px}
+.btn-block{width:100%}
+.btn-lg{padding:14px 28px;font-size:15px;border-radius:10px}
+.btn-sm{padding:7px 14px;font-size:12px;border-radius:7px}
+.btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe);color:#000}
+.btn-primary:hover{transform:scale(1.02);box-shadow:0 8px 24px rgba(79,172,254,.3)}
+.btn-outline{background:transparent;border:1px solid rgba(255,255,255,.15);color:#fff}
+.btn-outline:hover{background:rgba(255,255,255,.06)}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.08);color:#999}
+.btn-ghost:hover{border-color:rgba(255,255,255,.2);color:#fff}
+.btn-success{background:#10b981;color:#fff}
+.btn-success:hover{background:#059669}
+.switch-action{text-align:center;margin-top:14px;font-size:13px;color:#888}
+.switch-action a{color:#4facfe;cursor:pointer;font-weight:600;font-family:inherit;font-size:13px;background:none;border:none}
+.msg{font-size:12px;margin-top:6px;min-height:18px;text-align:center;line-height:1.4}
+.msg.success{color:#10b981}
+.msg.error{color:#ef4444}
+.hidden{display:none}
+.remember-row{display:flex;align-items:center;gap:8px;margin:12px 0 16px;font-size:13px;color:#999}
+.remember-row input[type=checkbox]{accent-color:#4facfe;width:16px;height:16px;cursor:pointer}
+.remember-row label{cursor:pointer}
+
+/* ─── NAVBAR ─── */
+.nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.nav-logo{font-weight:800;font-size:19px;letter-spacing:-.5px;background:linear-gradient(135deg,#00f2fe,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer}
+.nav-links{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.nav-links a,.nav-links button{color:#aaa;font-size:12px;font-weight:500;cursor:pointer;background:none;border:none;font-family:inherit;padding:5px 9px;border-radius:7px;transition:all .2s}
+.nav-links a:hover,.nav-links button:hover{color:#fff;background:rgba(255,255,255,.05)}
+.nav-cart{position:relative}
+.cart-count{position:absolute;top:-7px;right:-8px;background:#4facfe;color:#000;font-size:9px;font-weight:700;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.nav-user{color:#4facfe!important;font-weight:600!important}
+.nav-divider{width:1px;height:16px;background:rgba(255,255,255,.08);margin:0 4px}
+
+/* ─── HERO ─── */
+.hero{text-align:center;padding:56px 24px 40px;background:radial-gradient(ellipse at 50% 0,rgba(79,172,254,.08)0,transparent 60%)}
+.hero h1{font-size:34px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px}
+.hero h1 span{background:linear-gradient(135deg,#00f2fe,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:#888;font-size:14px;max-width:440px;margin:0 auto 8px}
+.hero .badge{display:inline-flex;align-items:center;gap:5px;padding:5px 16px;background:rgba(79,172,254,.08);border:1px solid rgba(79,172,254,.2);border-radius:50px;font-size:11px;color:#4facfe;font-weight:600}
+
+/* ─── SECTIONS ─── */
+.section{max-width:1120px;margin:0 auto;padding:24px}
+.section-title{font-size:20px;font-weight:700;margin-bottom:18px}
+.section-title small{display:block;color:#666;font-size:12px;font-weight:400;margin-top:3px}
+
+/* ─── PRODUCT GRID ─── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s}
+.card:hover{transform:translateY(-4px);border-color:rgba(79,172,254,.25);box-shadow:0 16px 48px rgba(79,172,254,.06)}
+.card-img{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:20px;position:relative}
+.card-img .em{font-size:52px}
+.card-badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);padding:3px 8px;border-radius:6px;font-size:10px;font-weight:600;color:#4facfe;border:1px solid rgba(79,172,254,.15)}
+.card-body{padding:12px 15px 15px}
+.card-body h3{font-size:13px;font-weight:600;margin-bottom:1px}
+.card-body .model{color:#666;font-size:10px;margin-bottom:4px}
+.card-body .desc{color:#888;font-size:10px;margin-bottom:8px;line-height:1.4}
+.card-footer{display:flex;align-items:center;justify-content:space-between}
+.price{font-size:15px;font-weight:700}
+.price .sol{color:#4facfe;font-size:11px;font-weight:600}
+.price .old{color:#666;font-size:11px;text-decoration:line-through;margin-right:4px;font-weight:400}
+
+/* ─── CART ─── */
+.cart-items{display:flex;flex-direction:column;gap:8px}
+.cart-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:11px}
+.cart-item .em{font-size:22px;width:34px;text-align:center;flex-shrink:0}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-info h4{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cart-item-info p{color:#888;font-size:10px}
+.cart-item-qty{display:flex;align-items:center;gap:3px;flex-shrink:0}
+.cart-item-qty button{width:22px;height:22px;border:1px solid rgba(255,255,255,.1);background:transparent;color:#fff;border-radius:5px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cart-item-qty button:hover{background:rgba(255,255,255,.08)}
+.cart-item-qty span{min-width:18px;text-align:center;font-weight:600;font-size:13px}
+.cart-item-price{font-weight:700;font-size:13px;min-width:48px;text-align:right;flex-shrink:0}
+.cart-empty{text-align:center;padding:48px 20px;color:#666}
+
+.promo-box{display:flex;gap:6px;margin:12px 0}
+.promo-box input{flex:1;padding:8px 12px;border-radius:7px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;font-size:13px;font-family:inherit;outline:none;transition:border .2s}
+.promo-box input:focus{border-color:#4facfe}
+.promo-box input::placeholder{color:#444}
+.promo-msg{font-size:11px;margin-top:3px;min-height:16px}
+.promo-msg.success{color:#10b981}
+.promo-msg.error{color:#ef4444}
+
+.cart-total{margin-top:14px;padding:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px}
+.cart-total-row{display:flex;justify-content:space-between;margin-bottom:3px;font-size:12px;color:#999}
+.cart-total-row.big{font-size:16px;font-weight:700;color:#fff;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06)}
+.cart-total-row.discount{color:#10b981}
+
+/* ─── CHECKOUT ─── */
+.checkout-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+@media(max-width:768px){.checkout-grid{grid-template-columns:1fr}}
+.checkout-summary{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px}
+.checkout-summary h3{font-size:14px;margin-bottom:12px}
+.checkout-summary .item{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;color:#ccc}
+.checkout-summary .item+.item{border-top:1px solid rgba(255,255,255,.04)}
+.checkout-pay{text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:24px}
+.checkout-pay .big-sol{font-size:32px;font-weight:800;background:linear-gradient(135deg,#00f2fe,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.checkout-pay .sub{color:#666;font-size:12px;margin:3px 0 14px}
+.qr-box{width:160px;height:160px;margin:14px auto;background:#fff;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;color:#999;font-size:11px;gap:4px}
+.qr-box .big{font-size:36px;color:#000}
+.sol-addr{background:rgba(255,255,255,.04);padding:8px 12px;border-radius:6px;font-family:monospace;font-size:10px;color:#888;word-break:break-all;border:1px solid rgba(255,255,255,.06);cursor:pointer;margin-top:8px;transition:all .2s}
+.sol-addr:hover{border-color:#4facfe;color:#fff}
+
+/* ─── ADDRESS FORM ─── */
+.addr-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:18px;margin-bottom:14px}
+.addr-box h3{font-size:13px;margin-bottom:12px}
+.addr-row{display:flex;gap:8px}
+.addr-row .fg{flex:1}
+
+/* ─── STATUS PAGES ─── */
+.confirm-box{text-align:center;max-width:420px;margin:48px auto;padding:36px 24px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:18px}
+.confirm-box .icon{font-size:42px;margin-bottom:10px}
+.confirm-box h2{font-size:20px;margin-bottom:4px}
+.confirm-box p{color:#888;font-size:13px;margin-bottom:2px;line-height:1.5}
+.confirm-box .id{color:#555;font-size:11px;margin-top:10px;font-family:monospace}
+
+/* ─── ORDER ITEM ─── */
+.order-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px;margin-bottom:10px}
+.order-item .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.order-item .id{font-weight:600;font-size:12px}
+.order-item .status{font-size:10px;padding:3px 8px;border-radius:14px;font-weight:600}
+.order-item .status.pending{background:rgba(234,179,8,.12);color:#eab308}
+.order-item .status.failed{background:rgba(239,68,68,.12);color:#ef4444}
+.order-item .status.confirmed{background:rgba(16,185,129,.12);color:#10b981}
+.order-item .details{color:#888;font-size:10px;line-height:1.5}
+
+/* ─── ACCOUNT ─── */
+.acc-info{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:18px;max-width:440px}
+.acc-info .row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px}
+.acc-info .row:last-child{border:none}
+.acc-info .row span:first-child{color:#888}
+.acc-info .row span:last-child{color:#fff;font-weight:500}
+
+/* ─── SUPPORT ─── */
+.support-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px;max-width:480px}
+.support-box textarea{resize:vertical;min-height:80px;width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;font-size:13px;font-family:inherit;outline:none}
+.support-box textarea:focus{border-color:#4facfe}
+.support-box select{width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;font-size:13px;font-family:inherit;outline:none}
+.support-box select:focus{border-color:#4facfe}
+.support-box select option{background:#1a1a2e;color:#fff}
+
+/* ─── MODAL ─── */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:#15152a;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:28px;max-width:380px;width:100%;animation:fade .2s ease}
+.modal h2{font-size:16px;margin-bottom:2px}
+.modal p{color:#888;font-size:12px;margin-bottom:12px}
+.qty-ctl{display:flex;align-items:center;justify-content:center;gap:12px;margin:16px 0}
+.qty-ctl button{width:34px;height:34px;border:1px solid rgba(255,255,255,.12);background:transparent;color:#fff;border-radius:8px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.qty-ctl button:hover{background:rgba(255,255,255,.06)}
+.qty-ctl span{font-size:24px;font-weight:700;min-width:32px;text-align:center}
+
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:20px;right:20px;background:rgba(16,185,129,.95);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;transform:translateY(100px);opacity:0;transition:all .4s cubic-bezier(.22,1,.36,1);z-index:400;pointer-events:none;max-width:340px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.error{background:rgba(239,68,68,.95)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:600px){
+  .hero h1{font-size:24px}
+  .grid{grid-template-columns:1fr 1fr}
+  .nav{padding:10px 14px}
+  .nav-links a,.nav-links button{font-size:10px;padding:4px 6px}
+  .nav-logo{font-size:16px}
+  .section{padding:16px}
+  .card-body h3{font-size:12px}
+  .login-wrap{padding:16px}
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.15)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ LOGIN PAGE ═══════════════════ -->
+<div class="page active" id="page-login">
+  <div class="login-wrap">
+    <div class="login-box">
+      <div class="logo">
+        <h1>⟠ Puffs JNR</h1>
+        <p>Paiement en Solana uniquement</p>
+      </div>
+
+      <!-- Connexion -->
+      <div class="card" id="loginCard">
+        <h2>Connexion</h2>
+        <p class="sub">Connectez-vous pour accéder à la boutique</p>
+        <div class="fg"><label>Email</label><input type="email" id="loginEmail" placeholder="votre@email.com"></div>
+        <div class="fg"><label>Mot de passe</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+        <div class="remember-row">
+          <input type="checkbox" id="rememberMe" checked>
+          <label for="rememberMe">Se souvenir de moi</label>
+        </div>
+        <div class="msg error" id="loginMsg"></div>
+        <button class="btn btn-primary btn-block" onclick="login()">Se connecter</button>
+        <div class="switch-action">Pas encore de compte ? <a onclick="showRegister()">Créer un compte</a></div>
+      </div>
+
+      <!-- Inscription -->
+      <div class="card hidden" id="registerCard">
+        <h2>Créer un compte</h2>
+        <p class="sub">Inscrivez-vous gratuitement</p>
+        <div class="fg"><label>Nom d'utilisateur</label><input type="text" id="regUser" placeholder="Votre pseudo"></div>
+        <div class="fg"><label>Email</label><input type="email" id="regEmail" placeholder="votre@email.com"></div>
+        <div class="fg"><label>Mot de passe</label><input type="password" id="regPass" placeholder="6 caractères minimum"></div>
+        <div class="msg error" id="regMsg"></div>
+        <button class="btn btn-primary btn-block" onclick="register()">Créer mon compte</button>
+        <div class="switch-action">Déjà un compte ? <a onclick="showLogin()">Se connecter</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SHOP PAGE ═══════════════════ -->
+<div class="page" id="page-shop">
+  <nav class="nav">
+    <div class="nav-logo" onclick="showPage('shop')">⟠ Puffs JNR</div>
+    <div class="nav-links">
+      <a onclick="showPage('shop')">Boutique</a>
+      <a onclick="showPage('orders')">Commandes</a>
+      <a onclick="showPage('account')">Compte</a>
+      <a onclick="showPage('cart')" class="nav-cart">Panier <span class="cart-count" id="cartCount">0</span></a>
+      <a onclick="showPage('support')">Support</a>
+      <span class="nav-divider"></span>
+      <button onclick="logout()" class="nav-user" id="navUser">Déconnexion</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1>Puffs <span>JNR</span></h1>
+    <p>Jusqu'à 40 000 puffs – Rechargeables USB-C</p>
+    <div class="badge">⟠ Paiement en SOL uniquement</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Nos modèles <small>Livrés avec 2 flacons de 10 ml • Paiement crypto</small></div>
+    <div class="grid" id="productGrid"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CART PAGE ═══════════════════ -->
+<div class="page" id="page-cart">
+  <nav class="nav">
+    <div class="nav-logo" onclick="showPage('shop')">⟠ Puffs JNR</div>
+    <div class="nav-links">
+      <a onclick="showPage('shop')">Boutique</a>
+      <a onclick="showPage('orders')">Commandes</a>
+      <a onclick="showPage('account')">Compte</a>
+      <a onclick="showPage('cart')" class="nav-cart">Panier <span class="cart-count">0</span></a>
+      <a onclick="showPage('support')">Support</a>
+      <button onclick="logout()" style="color:#4facfe;font-weight:600">Déconnexion</button>
+    </div>
+  </nav>
+  <div class="section" style="max-width:680px">
+    <div class="section-title">Votre panier</div>
+    <div id="cartContent"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CHECKOUT PAGE ═══════════════════ -->
+<div class="page" id="page-checkout">
+  <nav class="nav">
+    <div class="nav-logo" onclick="showPage('shop')">⟠ Puffs JNR</div>
+    <div class="nav-links">
+      <a onclick="showPage('cart')">← Retour panier</a>
+    </div>
+  </nav>
+  <div class="section" style="max-width:800px">
+    <div class="section-title">Finaliser la commande</div>
+    <div class="checkout-grid">
+      <div>
+        <div class="checkout-summary" id="checkoutSummary"></div>
+      </div>
+      <div>
+        <div class="addr-box">
+          <h3>📍 Adresse de livraison</h3>
+          <div class="fg"><label>Nom complet</label><input type="text" id="addrName" placeholder="Jean Dupont"></div>
+          <div class="fg"><label>Adresse</label><input type="text" id="addrLine" placeholder="12 rue de la Paix"></div>
+          <div class="addr-row">
+            <div class="fg"><label>Code postal</label><input type="text" id="addrZip" placeholder="75001"></div>
+            <div class="fg" style="flex:2"><label>Ville</label><input type="text" id="addrCity" placeholder="Paris"></div>
+          </div>
+        </div>
+        <div class="checkout-pay">
+          <p style="color:#888;font-size:11px;margin-bottom:2px">Total à payer</p>
+          <div class="big-sol" id="checkoutTotalSol">0 SOL</div>
+          <div class="sub" id="checkoutTotalEur">~0 €</div>
+          <div class="qr-box"><span class="big">⟠</span>Scannez ou copiez l'adresse</div>
+          <p style="color:#888;font-size:10px">Envoyez le montant exact en SOL à :</p>
+          <div class="sol-addr" id="solAddress" onclick="copyAddr()">G8vXyZ9pQ3mR4tK7wN2cL6xE5bH1jF0aD9sS4uV</div>
+          <button class="btn btn-success btn-lg btn-block" style="margin-top:14px" onclick="submitPayment()">✅ J'ai envoyé les SOL</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PROCESSING PAGE ═══════════════════ -->
+<div class="page" id="page-processing">
+  <nav class="nav"><div class="nav-logo" onclick="showPage('shop')">⟠ Puffs JNR</div></nav>
+  <div class="confirm-box">
+    <div class="icon">⏳</div>
+    <h2>Paiement en cours de vérification</h2>
+    <p>Votre transaction SOL est en cours de traitement.</p>
+    <p style="color:#888;font-size:11px;margin-top:6px">La vérification peut prendre jusqu'à 24 heures.</p>
+    <p class="id">ID commande : <span id="processingOrderId">VW-XXXX</span></p>
+    <p style="color:#666;font-size:10px;margin-top:4px">Reçu le : <span id="processingDate"></span></p>
+    <button class="btn btn-outline btn-lg" style="margin-top:16px" onclick="checkPayment()">⏎ Vérifier le statut</button>
+    <button class="btn btn-ghost" style="margin-top:6px" onclick="showPage('orders')">Voir mes commandes</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ ERROR PAGE ═══════════════════ -->
+<div class="page" id="page-error">
+  <nav class="nav"><div class="nav-logo" onclick="showPage('shop')">⟠ Puffs JNR</div></nav>
+  <div class="confirm-box">
+    <div class="icon">⚠️</div>
+    <h2>Erreur de paiement</h2>
+    <p>Nous n'avons pas pu vérifier votre transaction SOL.</p>
+    <p style="color:#888;font-size:12px;margin-top:6px">Cela peut être dû à un montant incorrect ou à un délai réseau.</p>
+    <p class="id">ID commande : <span id="errorOrderId">VW-XXXX</span></p>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
+      <button class="btn btn-primary btn-lg" onclick="retryPayment()">🔄 Réessayer le paiement</button>
+      <button class="btn btn-outline btn-lg" onclick="showPage('support')">📞 Contacter le support</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CONFIRMED PAGE ═══════════════════ -->
+<div class="page" id="page-confirmed">
+  <nav class="nav"><div class="nav-logo" onclick="showPage('shop')">⟠ Puffs JNR</div></nav>
+  <div class="confirm-box">
+    <div class="icon">✅</div>
+    <h2>Paiement confirmé</h2>
+    <p>Votre commande est en cours de préparation.</p>
+    <p style="color:#888;font-size:12px">Un email de confirmation vous sera envoyé.</p>
+    <p class="id">ID : <span id="confirmedOrderId">VW-XXXX</span></p>
+    <button class="btn btn-primary btn-lg" style="margin-top:16px" onclick="showPage('shop')">Continuer mes achats</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ ORDERS PAGE ═══════════════════ -->
+<div class="page" id="page-orders">
+  <nav class="nav">
+    <div class="nav-logo" onclick="showPage('shop')">⟠ Puffs JNR</div>
+    <div class="nav-links">
+      <a onclick="showPage('shop')">← Boutique</a>
+    </div>
+  </nav>
+  <div class="section" style="max-width:600px">
+    <div class="section-title">Mes commandes</div>
+    <div id="ordersList"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ ACCOUNT PAGE ═══════════════════ -->
+<div class="page" id="page-account">
+  <nav class="nav">
+    <div class="nav-logo" onclick="showPage('shop')">⟠ Puffs JNR</div>
+    <div class="nav-links"><a onclick="showPage('shop')">← Retour</a></div>
+  </nav>
+  <div class="section" style="max-width:520px">
+    <div class="section-title">Mon compte</div>
+    <div id="accountContent"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SUPPORT PAGE ═══════════════════ -->
+<div class="page" id="page-support">
+  <nav class="nav">
+    <div class="nav-logo" onclick="showPage('shop')">⟠ Puffs JNR</div>
+    <div class="nav-links"><a onclick="showPage('shop')">← Retour</a></div>
+  </nav>
+  <div class="section" style="max-width:460px">
+    <div class="section-title">Support client</div>
+    <div class="support-box">
+      <div class="fg"><label>Email de contact</label><input type="email" id="supEmail" placeholder="votre@email.fr"></div>
+      <div class="fg"><label>ID commande (si concerné)</label><input type="text" id="supOrder" placeholder="VW-2026-..."></div>
+      <div class="fg"><label>Sujet</label>
+        <select id="supType">
+          <option value="remboursement">Demande de remboursement</option>
+          <option value="paiement">Problème de paiement</option>
+          <option value="livraison">Problème de livraison</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div class="fg"><label>Message</label><textarea id="supMsg" placeholder="Décrivez votre problème..."></textarea></div>
+      <button class="btn btn-primary btn-lg btn-block" onclick="submitSupport()">Envoyer la demande</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ QUICK BUY MODAL ═══════════════════ -->
+<div class="modal-overlay" id="quickBuyModal">
+  <div class="modal">
+    <h2 id="qTitle">Produit</h2>
+    <p id="qDesc">Description</p>
+    <div class="qty-ctl">
+      <button onclick="qb(-1)">−</button>
+      <span id="qQty">1</span>
+      <button onclick="qb(1)">+</button>
+    </div>
+    <p style="text-align:center;color:#888;font-size:12px">Total : <span id="qTotal" style="color:#fff;font-weight:700">10€</span> (<span id="qSol" style="color:#4facfe">0.045 SOL</span>)</p>
+    <div style="display:flex;gap:6px;margin-top:14px">
+      <button class="btn btn-outline btn-lg btn-block" onclick="closeQB()">Annuler</button>
+      <button class="btn btn-primary btn-lg btn-block" onclick="confirmQB()">Ajouter au panier</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ TOAST ═══════════════════ -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// CONFIGURATION
+// ═══════════════════════════════════════════════════════════════
+const SOLANA_ADDR = 'G8vXyZ9pQ3mR4tK7wN2cL6xE5bH1jF0aD9sS4uV'; // ← Remplace par ton adresse Phantom
+const SOL_RATE = 220;
+const PROMO_CODE = 'ExClUs!V3';
+const PROMO_DISCOUNT = 0.10;
+const STORAGE_KEY = 'pjnr';
+
+// ═══════════════════════════════════════════════════════════════
+// PRODUITS
+// ═══════════════════════════════════════════════════════════════
+const products = [
+  {id:'f1',name:'Summer Peach Ice',model:'Falcon X 18K',price:10,oldP:16,emoji:'🍑'},
+  {id:'f2',name:'Strawberry Ice',model:'Falcon X 18K',price:10,oldP:16,emoji:'🍓'},
+  {id:'f3',name:'Black Dragon Ice',model:'Falcon X 18K',price:10,oldP:16,emoji:'🐉'},
+  {id:'f4',name:'Mixed Berries',model:'Falcon X 18K',price:10,oldP:16,emoji:'🍇'},
+  {id:'f5',name:'Watermelon Ice',model:'Falcon X 18K',price:10,oldP:16,emoji:'🍉'},
+  {id:'f6',name:'Blue Razz Cherry',model:'Falcon X 18K',price:10,oldP:16,emoji:'💙'},
+  {id:'f7',name:'Fizzy Cherry Cola',model:'Falcon X 18K',price:10,oldP:16,emoji:'🥤'},
+  {id:'f8',name:'Passion Fruit Kiwi',model:'Falcon X 18K',price:10,oldP:16,emoji:'✨'},
+  {id:'n1',name:'Summer Peach Ice',model:'Nexus 40K',price:13,oldP:22,emoji:'🍑'},
+  {id:'n2',name:'Strawberry Ice',model:'Nexus 40K',price:13,oldP:22,emoji:'🍓'},
+  {id:'n3',name:'Black Dragon Ice',model:'Nexus 40K',price:13,oldP:22,emoji:'🐉'},
+  {id:'n4',name:'Mixed Berries',model:'Nexus 40K',price:13,oldP:22,emoji:'🍇'},
+  {id:'n5',name:'Watermelon Ice',model:'Nexus 40K',price:13,oldP:22,emoji:'🍉'},
+  {id:'n6',name:'Blue Razz Cherry',model:'Nexus 40K',price:13,oldP:22,emoji:'💙'},
+  {id:'n7',name:'Fizzy Cherry Cola',model:'Nexus 40K',price:13,oldP:22,emoji:'🥤'},
+  {id:'n8',name:'Passion Fruit Kiwi',model:'Nexus 40K',price:13,oldP:22,emoji:'✨'},
+];
+
+// ═══════════════════════════════════════════════════════════════
+// ÉTAT
+// ═══════════════════════════════════════════════════════════════
+let accounts = JSON.parse(localStorage.getItem(STORAGE_KEY+'-acc')||'[]');
+let currentUser = null;
+let cart = JSON.parse(localStorage.getItem(STORAGE_KEY+'-cart')||'[]');
+let orders = JSON.parse(localStorage.getItem(STORAGE_KEY+'-ord')||'[]');
+let promoApplied = false;
+let qbProd = null;
+let qbQty = 1;
+let pendingOrderId = null;
+
+// ═══════════════════════════════════════════════════════════════
+// AUTH : GESTION DE "SE SOUVENIR DE MOI"
+// ═══════════════════════════════════════════════════════════════
+(function checkSession() {
+  const saved = localStorage.getItem(STORAGE_KEY+'-current');
+  const session = sessionStorage.getItem(STORAGE_KEY+'-current');
+  if (saved) {
+    // "Se souvenir de moi" a été coché lors de la dernière connexion
+    currentUser = saved;
+    if (accounts.find(a => a.user === currentUser)) {
+      enterShop();
+      return;
+    }
+  } else if (session) {
+    // Session active mais pas de "se souvenir"
+    currentUser = session;
+    if (accounts.find(a => a.user === currentUser)) {
+      enterShop();
+      return;
+    }
+  }
+})();
+
+function showLogin() {
+  document.getElementById('loginCard').classList.remove('hidden');
+  document.getElementById('registerCard').classList.add('hidden');
+  document.getElementById('loginMsg').textContent = '';
+}
+
+function showRegister() {
+  document.getElementById('loginCard').classList.add('hidden');
+  document.getElementById('registerCard').classList.remove('hidden');
+  document.getElementById('regMsg').textContent = '';
+}
+
+function login() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value.trim();
+  const remember = document.getElementById('rememberMe').checked;
+  const msg = document.getElementById('loginMsg');
+
+  if (!email || !pass) { msg.textContent = 'Remplissez tous les champs'; return; }
+  const acc = accounts.find(a => a.email === email);
+  if (!acc) { msg.textContent = 'Aucun compte avec cet email'; return; }
+  if (acc.pass !== pass) { msg.textContent = 'Mot de passe incorrect'; return; }
+
+  currentUser = acc.user;
+  if (remember) {
+    localStorage.setItem(STORAGE_KEY+'-current', currentUser);
+    sessionStorage.removeItem(STORAGE_KEY+'-current');
+  } else {
+    sessionStorage.setItem(STORAGE_KEY+'-current', currentUser);
+    localStorage.removeItem(STORAGE_KEY+'-current');
+  }
+  enterShop();
+}
+
+function register() {
+  const user = document.getElementById('regUser').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass = document.getElementById('regPass').value.trim();
+  const msg = document.getElementById('regMsg');
+
+  if (!user || !email || !pass) { msg.textContent = 'Remplissez tous les champs'; return; }
+  if (pass.length < 6) { msg.textContent = 'Mot de passe trop court (6 min)'; return; }
+  if (accounts.find(a => a.email === email)) { msg.textContent = 'Cet email existe déjà'; return; }
+  if (accounts.find(a => a.user === user)) { msg.textContent = 'Ce nom d\'utilisateur existe déjà'; return; }
+
+  accounts.push({ user, email, pass, created: new Date().toISOString() });
+  localStorage.setItem(STORAGE_KEY+'-acc', JSON.stringify(accounts));
+
+  currentUser = user;
+  sessionStorage.setItem(STORAGE_KEY+'-current', currentUser);
+  enterShop();
+  showToast('✅ Compte créé ! Bienvenue '+user, false);
+}
+
+function enterShop() {
+  document.getElementById('page-login').classList.remove('active');
+  document.getElementById('page-shop').classList.add('active');
+  document.getElementById('navUser').textContent = '👤 '+currentUser;
+  renderProducts();
+  updateCartCount();
+}
+
+function logout() {
+  currentUser = null;
+  localStorage.removeItem(STORAGE_KEY+'-current');
+  sessionStorage.removeItem(STORAGE_KEY+'-current');
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-login').classList.add('active');
+  showLogin();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// BOUTIQUE
+// ═══════════════════════════════════════════════════════════════
+function getP(id) { return products.find(p => p.id === id); }
+
+function renderProducts() {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = products.map(p => `
+    <div class="card" onclick="openQB('${p.id}')">
+      <div class="card-img" style="background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,.01))">
+        <div class="em">${p.emoji}</div>
+        <span class="card-badge">${p.model.includes('Nexus')?'🔥 Nouveau 40K':'⭐ 18K'}</span>
+      </div>
+      <div class="card-body">
+        <h3>${p.name}</h3>
+        <div class="model">JNR ${p.model}</div>
+        <div class="desc">Rechargeable USB-C • 2 flacons inclus</div>
+        <div class="card-footer">
+          <div class="price"><span class="old">${p.oldP}€</span>${p.price}€<div class="sol">${(p.price/SOL_RATE).toFixed(4)} SOL</div></div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCart() {
+  const c = document.getElementById('cartContent');
+  const total = cart.reduce((s, it) => s + getP(it.id).price * it.qty, 0);
+  if (cart.length === 0) {
+    c.innerHTML = `<div class="cart-empty"><p style="font-size:15px;font-weight:600;margin:6px 0">Votre panier est vide</p><button class="btn btn-primary btn-lg" onclick="showPage('shop')">Voir la boutique</button></div>`;
+    return;
+  }
+  let sub = total, disc = promoApplied ? sub * PROMO_DISCOUNT : 0, fin = sub - disc;
+  c.innerHTML = `
+    <div class="cart-items">${cart.map(i => { const p = getP(i.id); return `
+      <div class="cart-item">
+        <div class="em">${p.emoji}</div>
+        <div class="cart-item-info"><h4>${p.name}</h4><p>${p.model}</p></div>
+        <div class="cart-item-qty">
+          <button onclick="uc('${i.id}',-1)">−</button>
+          <span>${i.qty}</span>
+          <button onclick="uc('${i.id}',1)">+</button>
+        </div>
+        <div class="cart-item-price">${(p.price*i.qty).toFixed(2)}€</div>
+      </div>`}).join('')}</div>
+    <div class="promo-box">
+      <input type="text" id="pIn" placeholder="Code promo" value="${promoApplied?PROMO_CODE:''}" ${promoApplied?'disabled':''}>
+      <button class="btn btn-primary" id="pBtn" onclick="applyP()" ${promoApplied?'disabled':''}>OK</button>
+    </div>
+    <div class="promo-msg ${promoApplied?'success':''}" id="pMsg">${promoApplied?'✅ Code promo -10% appliqué':''}</div>
+    <div class="cart-total">
+      <div class="cart-total-row"><span>Sous-total</span><span>${sub.toFixed(2)}€</span></div>
+      ${disc>0?`<div class="cart-total-row discount"><span>Réduction (-10%)</span><span>-${disc.toFixed(2)}€</span></div>`:''}
+      <div class="cart-total-row"><span>Total en SOL</span><span>${(fin/SOL_RATE).toFixed(4)} SOL</span></div>
+      <div class="cart-total-row big"><span>Total</span><span>${fin.toFixed(2)}€</span></div>
+    </div>
+    <button class="btn btn-success btn-lg btn-block" style="margin-top:14px" onclick="goCheckout()">💳 Payer ${(fin/SOL_RATE).toFixed(4)} SOL</button>`;
+}
+
+function uc(id, d) {
+  const i = cart.findIndex(c => c.id === id);
+  if (i > -1) { cart[i].qty += d; if (cart[i].qty <= 0) cart.splice(i, 1); }
+  else if (d > 0) cart.push({ id, qty: 1 });
+  localStorage.setItem(STORAGE_KEY+'-cart', JSON.stringify(cart));
+  updateCartCount(); renderCart();
+}
+
+function updateCartCount() { document.getElementById('cartCount').textContent = cart.reduce((s, c) => s + c.qty, 0); }
+
+function showPage(p) {
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('page-'+p);
+  if (el) el.classList.add('active');
+  if (p === 'cart') renderCart();
+  if (p === 'shop') renderProducts();
+  if (p === 'orders') renderOrders();
+  if (p === 'account') renderAccount();
+  window.scrollTo(0, 0);
+}
+
+// Quick Buy
+function openQB(id) {
+  qbProd = getP(id); qbQty = 1;
+  document.getElementById('qTitle').textContent = qbProd.emoji+' '+qbProd.name;
+  document.getElementById('qDesc').textContent = 'JNR '+qbProd.model+' • '+qbProd.price+'€ l\'unité';
+  updateQB(); document.getElementById('quickBuyModal').classList.add('show');
+}
+function qb(d) { qbQty = Math.max(1, Math.min(99, qbQty+d)); updateQB(); }
+function updateQB() {
+  const t = qbProd.price * qbQty;
+  document.getElementById('qQty').textContent = qbQty;
+  document.getElementById('qTotal').textContent = t.toFixed(2)+'€';
+  document.getElementById('qSol').textContent = (t/SOL_RATE).toFixed(4)+' SOL';
+}
+function confirmQB() {
+  const e = cart.find(c => c.id === qbProd.id);
+  if (e) e.qty += qbQty; else cart.push({ id: qbProd.id, qty: qbQty });
+  localStorage.setItem(STORAGE_KEY+'-cart', JSON.stringify(cart));
+  updateCartCount(); closeQB(); showToast('✅ '+qbQty+'x '+qbProd.name+' ajouté', false);
+}
+function closeQB() { document.getElementById('quickBuyModal').classList.remove('show'); qbProd = null; }
+document.getElementById('quickBuyModal').addEventListener('click', function(e) { if (e.target === this) closeQB(); });
+
+// Promo
+function applyP() {
+  const v = document.getElementById('pIn').value.trim(), m = document.getElementById('pMsg');
+  if (v === PROMO_CODE) {
+    promoApplied = true;
+    m.className = 'promo-msg success';
+    m.textContent = '✅ Code promo -10% appliqué';
+    document.getElementById('pIn').disabled = true;
+    document.getElementById('pBtn').disabled = true;
+    renderCart();
+    showToast('Code promo -10% appliqué', false);
+  } else {
+    m.className = 'promo-msg error';
+    m.textContent = '❌ Code promo invalide';
+    showToast('Code promo invalide', true);
+  }
+}
+
+// Checkout
+function goCheckout() {
+  if (cart.length === 0) { showToast('Panier vide', true); return; }
+  const total = cart.reduce((s, i) => s + getP(i.id).price * i.qty, 0);
+  let disc = promoApplied ? total * PROMO_DISCOUNT : 0, fin = total - disc;
+  document.getElementById('checkoutSummary').innerHTML = `
+    <h3>Récapitulatif</h3>
+    ${cart.map(i => { const p = getP(i.id); return `<div class="item"><span>${p.emoji} ${p.name} x${i.qty}</span><span>${(p.price*i.qty).toFixed(2)}€</span></div>`; }).join('')}
+    ${disc>0?`<div class="item" style="color:#10b981"><span>Promo -10%</span><span>-${disc.toFixed(2)}€</span></div>`:''}
+    <div class="item" style="font-weight:700;color:#fff;border:none;padding-top:8px;margin-top:4px"><span>Total</span><span>${fin.toFixed(2)}€</span></div>
+    <div class="item" style="color:#4facfe;border:none"><span>Total en SOL</span><span>${(fin/SOL_RATE).toFixed(4)} SOL</span></div>`;
+  document.getElementById('checkoutTotalSol').textContent = (fin/SOL_RATE).toFixed(4)+' SOL';
+  document.getElementById('checkoutTotalEur').textContent = '~'+fin.toFixed(2)+' €';
+  document.getElementById('solAddress').textContent = SOLANA_ADDR;
+  showPage('checkout');
+}
+
+function submitPayment() {
+  if (cart.length === 0) return;
+  const n = document.getElementById('addrName').value.trim();
+  const l = document.getElementById('addrLine').value.trim();
+  const z = document.getElementById('addrZip').value.trim();
+  const c = document.getElementById('addrCity').value.trim();
+  if (!n || !l || !z || !c) { showToast('Remplissez l\'adresse de livraison', true); return; }
+
+  const total = cart.reduce((s, i) => s + getP(i.id).price * i.qty, 0);
+  let disc = promoApplied ? total * PROMO_DISCOUNT : 0, fin = total - disc;
+  const oid = 'VW-2026-'+String(Math.floor(Math.random()*9999)).padStart(4, '0');
+
+  const order = {
+    id: oid,
+    items: cart.map(i => { const p = getP(i.id); return { name: p.name, model: p.model, qty: i.qty, price: p.price }; }),
+    total: fin.toFixed(2),
+    sol: (fin/SOL_RATE).toFixed(4),
+    addr: n+', '+l+', '+z+' '+c,
+    status: 'pending', // pending → failed (toujours)
+    date: new Date().toLocaleDateString('fr-FR'),
+    time: new Date().toLocaleTimeString('fr-FR'),
+    user: currentUser
+  };
+  orders.push(order);
+  localStorage.setItem(STORAGE_KEY+'-ord', JSON.stringify(orders));
+
+  pendingOrderId = oid;
+  document.getElementById('processingOrderId').textContent = oid;
+  document.getElementById('processingDate').textContent = order.date+' à '+order.time;
+
+  cart = [];
+  localStorage.setItem(STORAGE_KEY+'-cart', '[]');
+  updateCartCount();
+  showPage('processing');
+  showToast('✅ Paiement reçu ! Vérification en cours...', false);
+}
+
+function checkPayment() {
+  if (!pendingOrderId) { showPage('orders'); return; }
+  const o = orders.find(o => o.id === pendingOrderId);
+  if (o) {
+    // Toujours un échec après vérification (scam réaliste)
+    o.status = 'failed';
+    localStorage.setItem(STORAGE_KEY+'-ord', JSON.stringify(orders));
+    document.getElementById('errorOrderId').textContent = pendingOrderId;
+    showPage('error');
+    showToast('⚠️ Erreur de vérification du paiement', true);
+  } else {
+    showPage('orders');
+  }
+}
+
+function retryPayment() {
+  // Recréer une commande identique à partir de celle qui a échoué
+  const o = orders.find(o => o.id === pendingOrderId);
+  if (!o) { showPage('shop'); return; }
+  // Remettre les articles dans le panier
+  cart = o.items.map(i => {
+    const p = products.find(pr => pr.name === i.name && pr.model === i.model);
+    return p ? { id: p.id, qty: i.qty } : null;
+  }).filter(Boolean);
+  localStorage.setItem(STORAGE_KEY+'-cart', JSON.stringify(cart));
+  updateCartCount();
+  // Supprimer l'ancienne commande
+  orders = orders.filter(ord => ord.id !== pendingOrderId);
+  localStorage.setItem(STORAGE_KEY+'-ord', JSON.stringify(orders));
+  showToast('🔄 Nouvelle tentative de paiement', false);
+  goCheckout();
+}
+
+// Orders
+function renderOrders() {
+  const c = document.getElementById('ordersList');
+  const my = orders.filter(o => o.user === currentUser).reverse();
+  if (my.length === 0) {
+    c.innerHTML = `<div class="cart-empty"><p style="font-weight:600">Aucune commande</p><p style="color:#888;font-size:13px">Vous n'avez pas encore passé de commande.</p></div>`;
+    return;
+  }
+  c.innerHTML = my.map(o => {
+    const statusClass = o.status === 'confirmed' ? 'confirmed' : o.status === 'failed' ? 'failed' : 'pending';
+    const statusLabel = o.status === 'confirmed' ? '✅ Confirmée' : o.status === 'failed' ? '⚠️ Échouée' : '⏳ En vérification';
+    return `<div class="order-item">
+      <div class="top"><span class="id">${o.id}</span><span class="status ${statusClass}">${statusLabel}</span></div>
+      <div class="details">${o.items.map(i => i.name+' x'+i.qty).join(', ')}<br>${o.total}€ • ${o.sol} SOL • ${o.date}</div>
+    </div>`;
+  }).join('');
+}
+
+// Account
+function renderAccount() {
+  const acc = accounts.find(a => a.user === currentUser);
+  const c = document.getElementById('accountContent');
+  if (!acc) { c.innerHTML = '<p>Erreur de chargement</p>'; return; }
+  c.innerHTML = `
+    <div class="acc-info">
+      <div class="row"><span>Nom d'utilisateur</span><span>${acc.user}</span></div>
+      <div class="row"><span>Email</span><span>${acc.email}</span></div>
+      <div class="row" style="border:none"><span>Membre depuis</span><span>${new Date(acc.created).toLocaleDateString('fr-FR')}</span></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="btn btn-outline btn-sm" onclick="showEditMail()">✏️ Changer l'email</button>
+      <button class="btn btn-outline btn-sm" onclick="showEditPass()">🔑 Changer le mot de passe</button>
+      <button class="btn btn-ghost btn-sm" onclick="logout()">Déconnexion</button>
+    </div>
+    <div id="accEdit" style="margin-top:14px"></div>`;
+}
+
+function showEditMail() {
+  document.getElementById('accEdit').innerHTML = `
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:16px;max-width:420px">
+      <h4 style="font-size:13px;margin-bottom:8px">Nouvel email</h4>
+      <div class="fg"><input type="email" id="newMail" placeholder="nouveau@email.com"></div>
+      <button class="btn btn-primary btn-sm" onclick="updateMail()">Enregistrer</button>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('accEdit').innerHTML=''">Annuler</button>
+    </div>`;
+}
+function updateMail() {
+  const nm = document.getElementById('newMail').value.trim();
+  if (!nm || !nm.includes('@')) { showToast('Email invalide', true); return; }
+  const acc = accounts.find(a => a.user === currentUser);
+  if (acc) { acc.email = nm; localStorage.setItem(STORAGE_KEY+'-acc', JSON.stringify(accounts));
+    document.getElementById('accEdit').innerHTML = ''; showToast('✅ Email changé', false); renderAccount(); }
+}
+function showEditPass() {
+  document.getElementById('accEdit').innerHTML = `
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:16px;max-width:420px">
+      <h4 style="font-size:13px;margin-bottom:8px">Nouveau mot de passe</h4>
+      <div class="fg"><input type="password" id="newP1" placeholder="Nouveau mot de passe"></div>
+      <div class="fg"><input type="password" id="newP2" placeholder="Confirmer le mot de passe"></div>
+      <button class="btn btn-primary btn-sm" onclick="updatePass()">Enregistrer</button>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('accEdit').innerHTML=''">Annuler</button>
+    </div>`;
+}
+function updatePass() {
+  const p1 = document.getElementById('newP1').value.trim(), p2 = document.getElementById('newP2').value.trim();
+  if (!p1 || !p2 || p1 !== p2) { showToast('Les mots de passe ne correspondent pas', true); return; }
+  if (p1.length < 6) { showToast('Minimum 6 caractères', true); return; }
+  const acc = accounts.find(a => a.user === currentUser);
+  if (acc) { acc.pass = p1; localStorage.setItem(STORAGE_KEY+'-acc', JSON.stringify(accounts));
+    document.getElementById('accEdit').innerHTML = ''; showToast('✅ Mot de passe changé', false); }
+}
+
+// Support
+function submitSupport() {
+  const msg = document.getElementById('supMsg').value.trim();
+  if (!msg) { showToast('Écrivez un message', true); return; }
+  showToast('✅ Demande envoyée. Réponse sous 48h.', false);
+  document.getElementById('supEmail').value = '';
+  document.getElementById('supOrder').value = '';
+  document.getElementById('supMsg').value = '';
+}
+
+// Toast & Copy
+function showToast(msg, err) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (err ? ' error' : '');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+function copyAddr() {
+  navigator.clipboard.writeText(SOLANA_ADDR)
+    .then(() => showToast('Adresse SOL copiée', false))
+    .catch(() => {});
+}
+</script>
+</body>
+</html>
